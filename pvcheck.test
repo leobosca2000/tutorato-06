@@ -1,0 +1,74 @@
+[.TEST]
+Esempio
+
+[.ARGS]
+3
+
+[.INPUT]
+Alea iacta est.
+
+[CIFRATO]
+Dohd ldfwd hvw.
+
+############################################################
+
+[.TEST]
+Esempio decifrazione
+
+[.ARGS]
+-3
+
+[.INPUT]
+Dohd ldfwd hvw.
+
+[CIFRATO]
+Alea iacta est.
+
+############################################################
+
+[.TEST]
+Chiave nulla
+
+[.ARGS]
+0
+
+[.INPUT]
+Messaggio di prova
+
+[CIFRATO]
+Messaggio di prova
+
+############################################################
+
+[.TEST]
+Set di caratteri
+
+[.ARGS]
+1
+
+[.INPUT]
+abcdefghijklmnopqrstuvwxyz,
+ABCDEFGHIJKLMNOPQRSTUVWXYZ,
+0123456789,
+-=!? ;:.
+
+[CIFRATO]
+bcdefghijklmnopqrstuvwxyza,
+BCDEFGHIJKLMNOPQRSTUVWXYZA,
+0123456789,
+-=!? ;:.
+
+############################################################
+
+[.TEST]
+Messaggio vuoto
+
+[.ARGS]
+10
+
+[.INPUT]
+.
+
+[CIFRATO]
+.
+

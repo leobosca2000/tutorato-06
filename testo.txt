@@ -1,0 +1,114 @@
+Stringhe
+========
+
+Il "cifrario di Cesare" è uno degli algoritmi crittografici
+più antichi. Si tratta di un cifrario a sostituzione monoalfabetica
+in cui ogni lettera del testo in chiaro è sostituita nel testo
+cifrato dalla lettera che si trova un certo numero di posizioni dopo
+nell'alfabeto (in modo circolare).  Ad esempio, Giulio Cesare
+utilizzava uno spostamento di 3 posizioni:
+
+    lettera in chiaro
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+    D E F G H I J K L M N O P Q R S T U V W X Y Z A B C
+    lettera cifrata
+
+
+In questo modo il messaggio in chiaro
+
+    GALLIA EST OMNIS DIVISA IN PARTES TRES!
+
+sarebbe stato cifrato come 
+
+    JDOOLD HVW RPQLV GLYLVD LQ SDUWHV WUHV!
+
+Il numero di posizioni di avanzamento prende il nome di "chiave".  Si
+suppone che il destinatario di un messaggio conosca la chiave di
+cifratura: per decodificare un messaggio cifrato con chiave k basta
+ripetere la procedura con la chiave opposta (-k).
+
+
+Primo esercizio: codifica
+---------------------------------
+
+Si scriva un programma C che legga da terminale un messaggio
+testuale e lo codifichi utilizzando il cifrario di Cesare con un
+chiave data come parametro dalla riga di comando.  Il messaggio
+termina con un punto.  Soltanto le lettere dell'alfabeto inglese
+sono cifrate.  Gli altri simboli (segni di punteggiatura, cifre
+decimali, spazi... devono essere trascritti inalterati.  Inoltre,
+la codifica deve preservare la grafia maiuscola e minuscola. Ad
+esempio, digitando il comando
+
+    ./cesare 3
+
+e quindi immettendo il messaggio in chiaro
+
+    Alea iacta est.
+
+il programma dovrà stampare il messaggio
+
+   [CIFRATO]
+   Dohd ldfwd hvw.
+
+Dove il marcatore [CIFRATO] serve per la verifica automatica.
+Per verificare la correttezza del programma, digitando il comando
+
+   ./cesare -3
+
+e quindi immettendo il messaggio cifrato ottenuto in precedenza si
+deve ottenere il messaggio in chiaro.
+
+Per la lettura del messaggio si può utilizzare la funzione di libreria
+scanf con il marcatore "%c", che consente di leggere un singolo
+carattere e di memorizzarlo in una variabile di tipo char.  Il valore
+restituito dalla funzione può essere utilizzato per rilevare la fine
+della lettura a causa dell'esaurimento dell'input.  Si assuma che il
+messaggio non superi i 4000 caratteri di lunghezza.  Per facilitare
+l'esercizio la funzione di lettura è già stata inclusa nel programma.
+
+Per verificare la correttezza del programma, si consiglia l'utilizzo
+del software pvcheck:
+
+    ./pvcheck ./cesare
+
+Dopo aver letto il messaggio lo si dovrà codificare manipolando i
+codici ASCII dei caratteri con le operazioni aritmetiche opportune.
+Per distinguere le lettere dagli altri simboli si consiglia di
+utilizzare le funzioni di classificazione dei caratteri
+isaplha, isupper, islower... rese disponibili con la direttiva
+
+   #include <ctype.h>    
+
+
+Secondo esercizio: decodifica
+---------------------------------------
+
+Decifrare un messaggio ottenuto con il cifrario di Cesare è molto
+semplice.  Si può infatti risalire alla chiave utilizzata
+osservando la distribuzione dei caratteri cifrati.  Nella lingua
+italiana la lettera più frequente è la `E' (seguita dalle vocali
+`A', `O' e `I').  Invece, in un messaggio italiano cifrato con k=3
+molto probabilmente la lettera più frequente sarà la `H' (che
+viene appunto tre posti dopo la `E').  Quindi una buona ipotesi sul
+valore di k può essere ottenuta sottraendo la posizione della
+lettera `E' dalla posizione della lettera più frequente nel
+messaggio cifrato
+(ad esempio, `Codice ASCII di H' - `Codice ASCII di E'  = 3).
+
+Si scriva una funzione che implementi la strategia di decifrazione
+appena descritta.  Tale funzione dovrà:
+
+- contare le occorrenze delle 26 lettere (senza distinzione tra 
+  maiuscole e minuscole);
+- determinare la lettera con il maggior numero di occorrenze;
+- determinare il valore di k sulla base dell'ipotesi che la 
+  lettera `E' sia la più frequente nel messaggio in chiaro.
+  
+Il programma dovrà stampare la chiave individuata (dopo il marcatore
+[CHIAVE]) e il testo decifrato (dopo il marcatore [DECIFRATO]).
+
+Per verificare la correttezza della procedura di decifrazione
+utilizzare il comando:
+
+    ./pvcheck -f cesare2.test ./cesare2
